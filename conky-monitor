@@ -1,0 +1,149 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+--[[
+Conky, a system monitor, based on torsmo
+
+Any original torsmo code is licensed under the BSD license
+
+All code written since the fork of torsmo is licensed under the GPL
+
+Please see COPYING for details
+
+Copyright (c) 2004, Hannu Saransaari and Lauri Hakkarainen
+Copyright (c) 2005-2012 Brenden Matthews, Philip Kovacs, et. al. (see AUTHORS)
+All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+]]
+
+conky.config = {
+    alignment = 'top_right',
+    background = true,
+    border_width = 1,
+	double_buffer = true,
+    cpu_avg_samples = 2,
+	default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+	own_window_transparent = true,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'Sans:size=10',
+    gap_x = 10,
+    gap_y = 35,
+    minimum_height = 10,
+	minimum_width = 10,
+	maximum_width = 200,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false,
+	color0 = white,
+	color1 = EAEAEA,
+	color2 = FFA300,
+	color3 = grey
+}
+
+conky.text = [[
+${alignc}${image ./archlinux.png -s 200x150}
+
+
+
+
+
+
+
+${color2}Kernel${color0}${alignr}${kernel}
+${color2}Uptime${color0}${alignr}${uptime}
+${color2}Architettura${color0}${alignr}${machine}
+#${color2}Update disponibili${color0}${alignr} ${execpi 10 checkupdates | wc -l}
+${color2}Update disponibili${color0}${alignr} ${execpi 10 ~/.checkupdates.sh}
+#${color2}Temperatura${color0}${alignr}${acpitemp}°
+${color2}Temperatura${color0}${alignr}${execi 1 sensors | grep "Physical id 0" | cut -d "+" -f2 | cut -c1-6}
+${color2}Velocità ventola${color0}${alignr}${execi 1 sensors | grep "fan2" | cut -c7-27} RPM
+
+$alignc${color2}eMMC
+
+${color2}Lettura${color0}${alignr}${diskio_read sda}
+${diskiograph_read sda 20,200 -t}
+${color2}Scrittura${color0}${alignr}${diskio_write sda}
+${diskiograph_write sda 20,200 -t}
+${color2}Spazio libero${color0}${alignr}${fs_free /}
+
+$alignc${color2}CPU
+#${execi 1000 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq}
+
+${color2}Utilizzo${color0}${alignr}${cpu cpu0}%
+${cpubar cpu1 5,}
+${cpubar cpu2 5,}
+${top name 1} $alignr ${top cpu 1}%
+${top name 2} $alignr ${top cpu 2}%
+${top name 3} $alignr ${top cpu 3}%
+${top name 4} $alignr ${top cpu 4}%
+${top name 5} $alignr ${top cpu 5}%
+${top name 6} $alignr ${top cpu 6}%
+${top name 7} $alignr ${top cpu 7}%
+#${top name 8} $alignr ${top cpu 8}%
+#${top name 9} $alignr ${top cpu 9}%
+#${top name 10} $alignr ${top cpu 10}%
+
+$alignc${color2}RAM
+
+${color2}Utilizzo${color0}${alignr}${mem}
+${membar 5,}
+${top_mem name 1} $alignr ${top_mem mem_res 1}
+${top_mem name 2} $alignr ${top_mem mem_res 2}
+${top_mem name 3} $alignr ${top_mem mem_res 3}
+${top_mem name 4} $alignr ${top_mem mem_res 4}
+${top_mem name 5} $alignr ${top_mem mem_res 5}
+${top_mem name 6} $alignr ${top_mem mem_res 6}
+${top_mem name 7} $alignr ${top_mem mem_res 7}
+#${top_mem name 8} $alignr ${top_mem mem_res 8}
+#${top_mem name 9} $alignr ${top_mem mem_res 9}
+#${top_mem name 10} $alignr ${top_mem mem_res 10}
+
+${color2}SWAP${color0}${alignr}${swap}
+${swapbar 5,}
+
+$alignc${color2}INTERNET
+
+${color2}Segnale${alignr}${color0}${wireless_link_qual wlp4s0}%
+${color2}Rete WiFi${alignr}${color0}${wireless_essid}
+${color2}Stato${alignr}${color0}${execpi 10 ~/.pingtest.sh}
+${color2}Ping${alignr}${color0}${execpi 10 ping -c 3 www.google.it | grep rtt | gawk -F/ {'print $6}'}
+${color2}IP Locale${color0}${alignr}${addr wlp4s0}
+${color2}IP Pubblico${color0}${alignr}${execi 3600 wget -q -O /dev/stdout http://checkip.dyndns.org/ | cut -d : -f 2- | cut -d \< -f -1}
+
+${color2}Internet Download ${color0}${alignr}${downspeedf wlp4s0} KiB/s
+${downspeedgraph wlp4s0 20,200}
+${color2}Internet Upload ${color0}${alignr}${upspeedf wlp4s0} KiB/s 
+${upspeedgraph wlp4s0 20,200}
+#${color2}Lan Download ${color0}${alignr}${downspeedf wlp4s0} KiB/s
+#${downspeedgraph wlp4s0 80,}
+#${color2}Lan Upload ${color0}${alignr}${upspeedf wlp4s0} KiB/s 
+#${upspeedgraph wlp4s0 80,}
+#${color2}${execi 3600 speedtest-cli --simple}
+#${color2}vaxana.poweredbyclear.com${color0}${alignr}${execi 3600 ping -c 1 vaxana.poweredbyclear.com | perl -e '$header=<>;$header=~m/ \(([^)]+)\) /;print $1;'
+]]
