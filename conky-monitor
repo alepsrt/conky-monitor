@@ -34,10 +34,10 @@ conky.config = {
     use_spacer = 'none',
     show_graph_scale = false,
     show_graph_range = false,
-	color0 = white,
-	color1 = EAEAEA,
-	color2 = FFA300,
-	color3 = grey
+	color0 = 'white',
+	color1 = 'EAEAEA',
+	color2 = 'FFA300',
+	color3 = 'grey'
 }
 
 conky.text = [[
