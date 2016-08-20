@@ -15,4 +15,4 @@ https://github.com/brndnmtthws/conky/wiki
 [![screenshot](https://github.com/alepsrt/conky-monitor/raw/master/conky-monitor.png)](https://github.com/alepsrt/conky-monitor/raw/master/conky-monitor.png)
 
 ###Distribuzioni
-Sostituire archlinux.png in [${alignc}${image ./archlinux.png -s 200x150}] con il logo della vostra distribuzione
+Sostituire archlinux.png in [ ${alignc}${image ./archlinux.png -s 200x150} ] con il logo della vostra distribuzione
