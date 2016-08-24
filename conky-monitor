@@ -15,6 +15,7 @@ conky.config = {
     draw_shades = false,
     use_xft = true,
     font = 'Sans:size=10',
+	own_window_argb_visual = true,
     gap_x = 10,
     gap_y = 35,
     minimum_height = 10,
